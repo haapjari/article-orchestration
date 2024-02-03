@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+
+  glass-ui:
+    build:
+      context: ../glass-ui
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+
+
+  glass-api:
+    build:
+      context: ../glass-api
+      dockerfile: Dockerfile
+    ports:
+      - "4000:4000"
+
+
+  glass-draw:
+    build:
+      context: ../glass-draw
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+
+
+  postgresql:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: glassdb
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
