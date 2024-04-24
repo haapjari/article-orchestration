@@ -1,20 +1,16 @@
-.PHONY: clone build up down
-
-
-all: clone build up
-
-
 clone:
-	./sct/clone_repos.sh
+	./sct/clone.sh
+.PHONY: clone
 
 
 build:
 	docker-compose build
-
+.PHONY: build
 
 up:
 	docker-compose up -d
-
+.PHONY: up
 
 down:
 	docker-compose down
+.PHONY: down
