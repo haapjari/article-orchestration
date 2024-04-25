@@ -9,7 +9,7 @@ services:
       - "8080:8080"
 
   database:
-    image: postgres:latest
+    image: postgres:16.2
     environment:
       POSTGRES_DB: database
       POSTGRES_USER: user

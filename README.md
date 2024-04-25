@@ -1,12 +1,14 @@
 # Greetings
 
-Hello! I am Jari Haapasaari ([mail](mailto:haapjari@gmail.com)). This repository consists necessary orchestration tools to repeat the setup of my thesis project.
+Hello! I am Jari Haapasaari ([mail](mailto:haapjari@gmail.com)). This repository consists tooling to spin up, and if you want, repeat the research setup for my thesis.
 
 ---
 
-## About
+## Internals
 
 This repository contains `docker-compose.yml` file and instructions, how to replicate the thesis setup. 
+
+## Architecture
 
 ![Dataset Collection](/img/dataset-collection.png)
 ![Dataset Cleaning](/img/dataset-cleaning.png)
@@ -18,22 +20,26 @@ This repository contains `docker-compose.yml` file and instructions, how to repl
 
 ### Repository Analysis Interface
 
-- [Repository](https://github.com/haapjari/repository-analysis-interface)
+- [Interface](https://github.com/haapjari/repository-analysis-interface)
 - TBD
 
 ### Repository Search API
 
-- [Repository](https://github.com/haapjari/repository-search-api/releases/tag/v1.0.0)
-- TBD
+- [Search API](https://github.com/haapjari/repository-search-api/releases/tag/v1.0.0)
+- API to Interact with the [GitHub REST API](https://docs.github.com/en/rest?apiVersion=2022-11-28).
+- Version Used: `v1.0.0`.
 
 ### Repository Database API
 
-- [Repository](https://github.com/haapjari/repository-database-api)
-- Add the Version.
+- [Database API](https://github.com/haapjari/repository-database-api/releases/tag/v1.0.0)
+- CRUD API for the Database Interaction.
+- Version Used: `v1.0.0`.
 
 ### Database
 
-- PostgreSQL Database.
+- [PostgreSQL](https://www.postgresql.org/)
+- Simple relational Database.
+- Version Used: `16.2`.
 
 ---
 
