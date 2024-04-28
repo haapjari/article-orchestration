@@ -3,16 +3,51 @@ version: '3.8'
 services:
   search-api:
     build:
-      context: ../repository-search-api
+      context: services/search-api
+      dockerfile: Dockerfile
+    environment:
+      PORT: "8000"
+    ports:
+      - "8000:8000"
+    networks:
+      - rpa-network
+
+  db-api:
+    build:
+      context: services/database-api
       dockerfile: Dockerfile
     ports:
-      - "8080:8080"
-
-  database:
-    image: postgres:16.2
+      - "9000:9000"
     environment:
-      POSTGRES_DB: database
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
+      PORT: "9000"
+      DB_HOST: "db"
+      DB_PORT: "5432"
+      DB_USERNAME: "postgres"
+      DB_PASSWORD: "postgres"
+      DB_NAME: "database"
+      DB_TIMEZONE: "Europe/Helsinki"
+    depends_on:
+      - db
+    networks:
+      - rpa-network
+
+  db:
+    image: postgres:16.2
     ports:
       - "5432:5432"
+    environment:
+      POSTGRES_DB: database
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_PORT: 5432
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - rpa-network
+
+volumes:
+  pgdata:
+
+networks:
+  rpa-network:
+    driver: bridge
