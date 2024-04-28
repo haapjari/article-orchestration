@@ -1,3 +1,4 @@
+
 #!/bin/bash
 
 BASE_DIR=$(pwd)
@@ -5,7 +6,7 @@ BASE_DIR=$(pwd)
 check_prerequisites() {
     local missing_tools=0
 
-    for tool in git make python pip docker docker-compose; do
+    for tool in git make docker docker-compose wget; do
         if ! command -v $tool &> /dev/null; then
             echo "$tool is not installed. Please install $tool to continue."
             missing_tools=1
@@ -29,27 +30,20 @@ clone_repo() {
 
 mkdir -p $BASE_DIR/services/search-api
 mkdir -p $BASE_DIR/services/database-api
-mkdir -p $BASE_DIR/services/analysis-interface
 
 export SEARCH_API_HOST=http://127.0.0.1:8000
 export DATABASE_API_HOST=http://127.0.0.1:9000
 
 clone_repo https://github.com/haapjari/repository-search-api.git v1.0.0 $BASE_DIR/services/search-api
 clone_repo https://github.com/haapjari/repository-database-api.git v1.0.0 $BASE_DIR/services/database-api
-clone_repo https://github.com/haapjari/repository-analysis-interface.git v1.0.0 $BASE_DIR/services/analysis-interface
 
-cd $BASE_DIR/services/analysis-interface
+# Download the static binary for the analysis interface
+wget https://github.com/haapjari/repository-analysis-interface/releases/download/v1.0.0/rai-linux-x86_64 -O $BASE_DIR/interface
 
-python -m venv venv
-source venv/bin/activate
+# Make the binary executable
+chmod +x $BASE_DIR/interface
 
-pip install -r requirements.txt
-
-make compile
-
-deactivate
-
-echo "Script Entrypoint is at: $(pwd ./dist)"
+echo "Static binary for the analysis interface downloaded and renamed to 'interface'."
 
 cd $BASE_DIR
 
