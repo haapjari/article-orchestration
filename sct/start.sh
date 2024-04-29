@@ -38,7 +38,7 @@ clone_repo https://github.com/haapjari/repository-search-api.git v1.0.0 $BASE_DI
 clone_repo https://github.com/haapjari/repository-database-api.git v1.0.0 $BASE_DIR/services/database-api
 
 # Download the static binary for the analysis interface
-wget https://github.com/haapjari/repository-analysis-interface/releases/download/v1.0.0/rai-linux-x86_64 -O $BASE_DIR/interface
+wget https://github.com/haapjari/repository-analysis-interface/releases/download/v1.0.1/rai-linux-x86_64 -O $BASE_DIR/interface
 
 # Make the binary executable
 chmod +x $BASE_DIR/interface
