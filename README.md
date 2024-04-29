@@ -58,26 +58,25 @@ This repository contains necessary tooling how to replicate my thesis setup. The
     make
 ```
 
-- Interface is compiled in `ubuntu 22.04 lts server` environment. If you're getting errors, that means your `glibc` version is not compatible with the binary. You can compile the binary yourself, or upgrade your environment and retry.
+- Interface is compiled in `Ubuntu LTS 22.04` environment with `pyinstaller`. If you're getting errors while using it, that means your `glibc` version is not compatible with the generated binary. Binary has to be recompiled to your corresponding environment.
 
 ### Preparation
 
 - Clone this Repository.
 - Install Prerequisites to the Environment.
-- Export your "GITHUB_TOKEN" as an environment variable.
-- Export `SEARCH_API_HOST=http://127.0.0.1:8000` and `DATABASE_API_HOST=http://127.0.0.1:9000` as environment variables.
-- Install Required Services: `./sct/start.sh`
-- If the Database API Errors (Check Logs: `docker-compose logs -f`), just restart the service with `docker-compose -f docker-compose.yml up -d` in the project root. This happens, becaus even if the PostgreSQL Container is running, the DB was not bootstrapped before the API tried to connect.
+- Export your `GITHUB_TOKEN` as an environment variable. (This makes generating the dataset faster, due to the GitHub API Rate Limit. Export `SEARCH_API_HOST=http://127.0.0.1:8000` and `DATABASE_API_HOST=http://127.0.0.1:9000` as environment variables. These can be set for example to the `~./bashrc` file, or just export them in the terminal session you're using.
+- Run the Start Script, to Clone and Build Services (Database API, Search API and Database): `./sct/start.sh`
+- If the Database API Logs Errors, and Shuts Down (Check Logs: `docker-compose logs -f`), just restart the service with `docker-compose -f docker-compose.yml up -d` in the project root. This happens, because `depends_on` is unreliable in this kind of situation. Even if the PostgreSQL database container has started, database within the container might've not started. DB API starts quickly, and might try to connect to the database container, even if the database within the database has not started yet.
 - Interface Entrypoint is now at `./interface`
 - Print the Help Command: `./services/analysis-interface/dist/main --help`
 
 ## Dataset Collection
 
 - Execute Collect Procedure: `./interface --collect 2008-01-01 2024-04-29 Go 100 150000 desc`
-  - First Go Project is released at ~ Spring 2008. Most Stars is ~ 125000, so this query pretty much covers the whole Go Ecosystem available GitHub.
-- Test Run Took: `TBD h`
+  - First Go Project (with enough stars) is released at ~ Spring 2008. Most Stars within a single project is ~ 125000, so this query pretty much covers the whole Go Ecosystem available GitHub.
+- NOTES: Collection will take multiple days: For example, test run for 16000 records took 4 days.
 
-## Dataset Cleaning
+## Dataset Cleaning # TODO
 
 - TBD (?)
 - This can be done with DBeaver, or any other SQL Client. Just connect to the Database, and execute the necessary queries, to clean empty or broken entries.
