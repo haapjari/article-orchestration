@@ -91,29 +91,9 @@ This repository contains necessary tooling how to replicate my thesis setup. The
 - Composite Variable for Activity: `./interface --composite --variables open_issues closed_issues commit_count open_pull_request_count closed_pull_request_count network_count contributor_count --name activity`
 - Composite Variable for Maturity: `./interface --composite --variables created_at latest_release total_releases_count --name maturity`
  
-## Distributions
+## Distribution
 
-- Latest Release: `./interface -dist --variables latest_release --output ./latest_release_dist.png`
-- Creation Date: `./interface -dist --variables created_at --output ./created_at_dist.png`
-- Stars: `./interface -dist --variables stargazer_count --output ./stargazer_count_dist.png`
-- Open Issues: `./interface -dist --variables open_issues --output ./open_issues_dist.png`
-- Closed Issues: `./interface -dist --variables closed_issues --output ./closed_issues_dist.png`
-- Open Pull Requests: `./interface -dist --variables open_pull_request_count --output ./open_pull_request_count_dist.png`
-- Closed Pull Requests: `./interface -dist --variables closed_pull_request_count --output ./closed_pull_request_count_dist.png`
-- Forks: `./interface -dist --variables forks --output ./forks_dist.png`
-- Watchers: `./interface -dist --variables watcher_count --output ./watcher_count_dist.png`
-- Subscribers: `./interface -dist --variables subscriber_count --output ./subscriber_count_dist.png`
-- Commits: `./interface -dist --variables commit_count --output ./commit_count_dist.png`
-- Network Events: `./interface -dist --variables network_count --output ./network_count_dist.png`
-- Total Releases: `./interface -dist --variables total_releases_count --output ./total_releases_count_dist.png`
-- Contributors: `./interface -dist --variables contributor_count --output ./contributor_count_dist.png`
-- Third Party LOC: `./interface -dist --variables third_party_loc --output ./third_party_loc_dist.png`
-- Self Written LOC: `./interface -dist --variables self_written_loc --output ./self_written_loc_dist.png`
-- Popularity: `./interface -dist --variables popularity --output ./popularity_dist.png`
-- Activity: `./interface -dist --variables activity --output ./activity_dist.png`
-- Maturity: `./interface -dist --variables maturity --output ./maturity_dist.png`
-- Self-Written LOC Proportion: `./interface -dist --variables self_written_loc_proportion --output ./self_written_loc_proportion_dist.png`
-- Third-Party LOC Proportion: `./interface -dist --variables third_party_loc_proportion --output ./third_party_loc_proportion_dist.png`
+- Distributions: `./interface --dist --variables latest_release created_at stargazer_count open_issues closed_issues open_pull_request_count closed_pull_request_count forks watcher_count subscriber_count commit_count network_count total_releases_count contributor_count third_party_loc self_written_loc popularity activity maturity self_written_loc_proportion third_party_loc_proportion --output ./dist.png`
 
 ## Plots
 
