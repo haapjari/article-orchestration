@@ -23,7 +23,7 @@ This repository contains necessary tooling how to replicate my thesis setup. The
 
 - [Interface](https://github.com/haapjari/repository-analysis-interface/releases/tag/v1.0.0)
 - Will be compiled into a single binary, with `pyinstaller`.
-- Version Used: `v1.0.0`.
+- Version Used: `v1.0.X`.
 
 ### Repository Search API
 
@@ -35,7 +35,7 @@ This repository contains necessary tooling how to replicate my thesis setup. The
 
 - [Database API](https://github.com/haapjari/repository-database-api/releases/tag/v1.0.0)
 - CRUD API for the Database Interaction.
-- Version Used: `v1.0.0`.
+- Version Used: `v1.0.1`.
 
 ### Database
 
@@ -70,30 +70,24 @@ This repository contains necessary tooling how to replicate my thesis setup. The
 - Interface Entrypoint is now at `./interface`
 - Print the Help Command: `./services/analysis-interface/dist/main --help`
 
-## Dataset Collection
+## Collection
 
 - Execute Collect Procedure: `./interface --collect 2008-01-01 2024-04-29 Go 100 150000 desc`
   - First Go Project (with enough stars) is released at ~ Spring 2008. Most Stars within a single project is ~ 125000, so this query pretty much covers the whole Go Ecosystem available GitHub.
 - NOTES: Collection will take multiple days: For example, test run for 16000 records took 4 days.
-
-## Dataset Cleaning # TODO
-
-- TBD (?)
-- This can be done with DBeaver, or any other SQL Client. Just connect to the Database, and execute the necessary queries, to clean empty or broken entries.
  
-## Dataset Normalization 
+## Normalization 
  
 - Execute the Normalize Procedure: `./interface --normalize`
 
-## Composite Variables
+## Cleaning
 
-- Composite Variable for Popularity: `./interface --composite --variables stargazer_count forks subscriber_count watcher_count --name popularity`
-- Composite Variable for Activity: `./interface --composite --variables open_issues closed_issues commit_count open_pull_request_count closed_pull_request_count network_count contributor_count --name activity`
-- Composite Variable for Maturity: `./interface --composite --variables created_at latest_release total_releases_count --name maturity`
- 
+- Remove Certain Columns: `./interface --drop --table repos/normalized --column network_count`
+- Remove Certain Columns: `./interface --drop --table repos/normalized --column subscriber_count`
+
 ## Distribution
 
-- Distributions: `./interface --dist --variables latest_release created_at stargazer_count open_issues closed_issues open_pull_request_count closed_pull_request_count forks watcher_count subscriber_count commit_count network_count total_releases_count contributor_count third_party_loc self_written_loc popularity activity maturity self_written_loc_proportion third_party_loc_proportion --output ./dist.png`
+- Distributions: `./interface --dist --variables latest_release created_at stargazer_count open_issues closed_issues open_pull_request_count closed_pull_request_count forks watcher_count commit_count total_releases_count contributor_count third_party_loc self_written_loc self_written_loc_proportion third_party_loc_proportion --output ./dist.png`
 
 ## Plots
 
@@ -113,5 +107,19 @@ This repository contains necessary tooling how to replicate my thesis setup. The
 ## Heatmaps
 
 - Heatmap, for Popularity, Activity, Maturity, Self-Written LOC, Third-Party LOC, Third-Party LOC Proportion, Self-Written LOC Proportion: `./interface --heatmap --variables popularity activity maturity self_written_loc third_party_loc third_party_loc_proportion self_written_loc_proportion --correlation pearson --output ./heatmap.png`
+
+
+## Regression
+
+## Clustering
+
+<!--
+## Composite Variables (?)
+
+- Composite Variable for Popularity: `./interface --composite --variables stargazer_count forks subscriber_count watcher_count --name popularity`
+- Composite Variable for Activity: `./interface --composite --variables open_issues closed_issues commit_count open_pull_request_count closed_pull_request_count network_count contributor_count --name activity`
+- Composite Variable for Maturity: `./interface --composite --variables created_at latest_release total_releases_count --name maturity`
+-->
+
 
 ---
