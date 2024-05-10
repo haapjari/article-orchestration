@@ -72,10 +72,10 @@ This repository contains necessary tooling how to replicate my thesis setup. The
 
 ## Collection
 
+- NOTE: Collection will take multiple days: For example, dataset collection of 16400 records took 8 days.
 - Execute Collect Procedure: `./interface --collect 2008-01-01 2024-04-29 Go 100 150000 desc`
   - First Go Project (with enough stars) is released at ~ Spring 2008. Most Stars within a single project is ~ 125000, so this query pretty much covers the whole Go Ecosystem available GitHub.
-- NOTES: Collection will take multiple days: For example, test run for 16000 records took 4 days.
- 
+
 ## Normalization 
  
 - Execute the Normalize Procedure: `./interface --normalize`
