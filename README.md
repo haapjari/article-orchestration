@@ -96,31 +96,15 @@ This repository contains necessary tooling how to replicate my thesis setup. The
 
 - Clustering: `./interface --cluster --method hierarchical --variables created_at stargazer_count open_issues closed_issues open_pull_request_count closed_pull_request_count forks watcher_count commit_count total_releases_count contributor_count third_party_loc self_written_loc self_written_loc_proportion third_party_loc_proportion --output ./path.png`
 
-## Plots
+## Heatmap 
 
-- Library LOC Proportion vs. Activity `./interface -plot --variables activity third_party_loc_proportion --correlation spearman --output ./activity_third_party_loc_proportion_plot.png`
-- Library LOC Proportion vs. Maturity: `./interface -plot --variables maturity third_party_loc_proportion --correlation spearman --output ./maturity_third_party_loc_proportion_plot.png`
-- Library LOC Proportion vs. Popularity: `./interface -plot --variables popularity third_party_loc_proportion --correlation spearman --output ./popularity_third_party_loc_proportion_plot.png`
-- Popularity vs. Activity: `./interface -plot --variables popularity activity --correlation spearman --output ./popularity_activity_plot.png`
-- Popularity vs. Maturity: `./interface -plot --variables popularity maturity --correlation spearman --output ./popularity_maturity_plot.png`
-- Activity vs. Maturity: `./interface -plot --variables activity maturity --correlation spearman --output ./activity_maturity_plot.png`
-- Popularity vs. Self-Written LOC: `./interface -plot --variables popularity self_written_loc --correlation spearman --output ./popularity_self_written_loc_plot.png`
-- Popularity vs. Third-Party LOC: `./interface -plot --variables popularity third_party_loc --correlation spearman --output ./popularity_third_party_loc_plot.png`
-- Activity vs. Self-Written LOC: `./interface -plot --variables activity self_written_loc --correlation spearman --output ./activity_self_written_loc_plot.png`
-- Activity vs. Third-Party LOC: `./interface -plot --variables activity third_party_loc --correlation spearman --output ./activity_third_party_loc_plot.png`
-- Maturity vs. Self-Written LOC: `./interface -plot --variables maturity self_written_loc --correlation spearman --output ./maturity_self_written_loc_plot.png`
-- Maturity vs. Third-Party LOC: `./interface -plot --variables maturity third_party_loc --correlation spearman --output ./maturity_third_party_loc_plot.png`
+- Heatmap: `./interface --heatmap --variables  created_at stargazer_count open_issues closed_issues open_pull_request_count closed_pull_request_count forks watcher_count commit_count total_releases_count contributor_count third_party_loc self_written_loc self_written_loc_proportion third_party_loc_proportion --correlation spearman --output ./heatmap.png`
 
-## Heatmaps
-
-- Heatmap, for Popularity, Activity, Maturity, Self-Written LOC, Third-Party LOC, Third-Party LOC Proportion, Self-Written LOC Proportion: `./interface --heatmap --variables popularity activity maturity self_written_loc third_party_loc third_party_loc_proportion self_written_loc_proportion --correlation pearson --output ./heatmap.png`
-
+# TODO
 
 ## Regression
 
 - TBD
-
-
 
 <!--
 ## Weighted Sums 
