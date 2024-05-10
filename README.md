@@ -23,7 +23,7 @@ This repository contains necessary tooling how to replicate my thesis setup. The
 
 - [Interface](https://github.com/haapjari/repository-analysis-interface/releases/tag/v1.0.0)
 - Will be compiled into a single binary, with `pyinstaller`.
-- Version Used: `v1.0.X`.
+- Version Used: `v1.0.7`.
 
 ### Repository Search API
 
@@ -82,12 +82,19 @@ This repository contains necessary tooling how to replicate my thesis setup. The
 
 ## Cleaning
 
-- Remove Certain Columns: `./interface --drop --table repos/normalized --column network_count`
-- Remove Certain Columns: `./interface --drop --table repos/normalized --column subscriber_count`
+- Remove Column: `./interface --drop --table repos/normalized --column network_count`
+- Remove Column: `./interface --drop --table repos/normalized --column subscriber_count`
+- Remove Column: `./interface --drop --table repos/normalized --column name`
+- Remove Column: `./interface --drop --table repos/normalized --column language`
+- Remove Column: `./interface --drop --table repos/normalized --column latest_release`
 
 ## Distribution
 
-- Distributions: `./interface --dist --variables latest_release created_at stargazer_count open_issues closed_issues open_pull_request_count closed_pull_request_count forks watcher_count commit_count total_releases_count contributor_count third_party_loc self_written_loc self_written_loc_proportion third_party_loc_proportion --output ./dist.png`
+- Distributions: `./interface --dist --variables created_at stargazer_count open_issues closed_issues open_pull_request_count closed_pull_request_count forks watcher_count commit_count total_releases_count contributor_count third_party_loc self_written_loc self_written_loc_proportion third_party_loc_proportion --output ./dist.png`
+
+## Clustering
+
+- Clustering: `./interface --cluster --method hierarchical --variables created_at stargazer_count open_issues closed_issues open_pull_request_count closed_pull_request_count forks watcher_count commit_count total_releases_count contributor_count third_party_loc self_written_loc self_written_loc_proportion third_party_loc_proportion --output ./path.png`
 
 ## Plots
 
@@ -111,14 +118,16 @@ This repository contains necessary tooling how to replicate my thesis setup. The
 
 ## Regression
 
-## Clustering
+- TBD
+
+
 
 <!--
-## Composite Variables (?)
+## Weighted Sums 
 
-- Composite Variable for Popularity: `./interface --composite --variables stargazer_count forks subscriber_count watcher_count --name popularity`
-- Composite Variable for Activity: `./interface --composite --variables open_issues closed_issues commit_count open_pull_request_count closed_pull_request_count network_count contributor_count --name activity`
-- Composite Variable for Maturity: `./interface --composite --variables created_at latest_release total_releases_count --name maturity`
+- Composite Variable for Popularity: `./interface --weighted --variables stargazer_count forks subscriber_count watcher_count --name popularity`
+- Composite Variable for Activity: `./interface --weighted --variables open_issues closed_issues commit_count open_pull_request_count closed_pull_request_count network_count contributor_count --name activity`
+- Composite Variable for Maturity: `./interface --weighted --variables created_at latest_release total_releases_count --name maturity`
 -->
 
 
