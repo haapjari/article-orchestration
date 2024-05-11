@@ -1,36 +1,53 @@
 version: '3.8'
 
 services:
-
-  glass-ui:
+  search-api:
     build:
-      context: ../glass-ui
+      context: services/search-api
       dockerfile: Dockerfile
-    ports:
-      - "3000:3000"
-
-
-  glass-api:
-    build:
-      context: ../glass-api
-      dockerfile: Dockerfile
-    ports:
-      - "4000:4000"
-
-
-  glass-draw:
-    build:
-      context: ../glass-draw
-      dockerfile: Dockerfile
-    ports:
-      - "5000:5000"
-
-
-  postgresql:
-    image: postgres:latest
     environment:
-      POSTGRES_DB: glassdb
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
+      PORT: "8000"
+    ports:
+      - "8000:8000"
+    networks:
+      - rpa-network
+
+  db-api:
+    build:
+      context: services/database-api
+      dockerfile: Dockerfile
+    ports:
+      - "9000:9000"
+    environment:
+      PORT: "9000"
+      DB_HOST: "db"
+      DB_PORT: "5432"
+      DB_USERNAME: "postgres"
+      DB_PASSWORD: "postgres"
+      DB_NAME: "database"
+      DB_TIMEZONE: "Europe/Helsinki"
+    depends_on:
+      - db
+    networks:
+      - rpa-network
+
+  db:
+    image: postgres:16.2
     ports:
       - "5432:5432"
+    environment:
+      POSTGRES_DB: database
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_PORT: 5432
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - rpa-network
+
+volumes:
+  pgdata:
+
+networks:
+  rpa-network:
+    driver: bridge

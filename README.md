@@ -1,118 +1,110 @@
 # Greetings
 
-Hello! I am Jari Haapasaari ([mail](mailto:haapjari@gmail.com)), and this is an orchestration repository, for my research tool, that I built for my thesis.
+Hello! I am Jari Haapasaari ([mail](mailto:haapjari@gmail.com)). This repository consists tooling to spin up, and if you want, repeat the research setup for my thesis.
 
 ---
 
-## About
+## Internals
 
-This repository contains `docker-compose.yml` file and instructions, how to replicate the thesis setup. 
+This repository contains necessary tooling how to replicate my thesis setup. There is `start.sh` script that will clone all necessary repositories, and start the services with `docker-compose.yml`. 
 
-Project is called `glass`, because I's like magnifying glass to open-source repositories hosted in GitHub. 
+## Procedure Overview
+
+1. Collect Dataset
+2. Normalize Dataset
+3. Add Composite Variables (Predefined Weighted Sums)
+4. Draw Distributions, Plots and Heatmaps
 
 ---
 
 ### Components
 
-### Glass UI
+### Repository Analysis Interface
 
-- [Repository](https://github.com/haapjari/glass-ui)
-- Visualizes the results.
-- Offers orchestration methods and ability to visualize the results.
+- [Interface](https://github.com/haapjari/repository-analysis-interface/releases/tag/v1.0.0)
+- Will be compiled into a single binary, with `pyinstaller`.
+- Version Used: `v1.0.7`.
 
-### Glass API
+### Repository Search API
 
-- [Repository](https://github.com/haapjari/glass-api)
-- REST API, that fetches data from GitHub.
-- API also calculates the missing fields from the data.
+- [Search API](https://github.com/haapjari/repository-search-api/releases/tag/v1.0.0)
+- API to Interact with the [GitHub REST API](https://docs.github.com/en/rest?apiVersion=2022-11-28).
+- Version Used: `v1.0.0`.
 
-### Glass Draw
+### Repository Database API
 
-- [Repository](https://github.com/haapjari/glass-draw)
-- Component leverages scientific libraries in 
-- Component reads data from the database, and  
+- [Database API](https://github.com/haapjari/repository-database-api/releases/tag/v1.0.0)
+- CRUD API for the Database Interaction.
+- Version Used: `v1.0.1`.
 
 ### Database
 
-- PostgreSQL database.
+- [PostgreSQL](https://www.postgresql.org/)
+- Simple relational Database.
+- Version Used: `16.2`.
 
 ---
 
-### How-To: Run
+## How-To: Reproduce
 
-- This guide will walk you through the steps to clone, build, and run the `glass` application components using `docker-compose.yml`. This process involves cloning the necessary repositories, building DOcker Images for each component, and running the services using `docker-compose.yml`. This could be done with docker registry, but I opted not to use public registry, and instead just rely on versioning GitHub repositories. 
+### Prerequisites
 
-#### Prerequisites
-
-- Before you begin, ensure you have the following installed on your system:
+- Before you begin, ensure you have the following tools:
 
 ```bash
     git
     docker
     docker-compose
+    make
 ```
 
-#### Step 1: Clone the Orchestration Repository
+- Interface is compiled in `Ubuntu LTS 22.04` environment with `pyinstaller`. If you're getting errors while using it, that means your `glibc` version is not compatible with the generated binary. Binary has to be recompiled to your corresponding environment.
 
-- clone the `glass-orchestration`repository to your local machine:
+### Preparation
 
-``` bash
-    git clone https://github.com/haapjari/glass-orchestration.git
-    cd glass-orchestration
-```
+- Clone this Repository.
+- Install Prerequisites to the Environment.
+- Export your `GITHUB_TOKEN` as an environment variable. (This makes generating the dataset faster, due to the GitHub API Rate Limit. 
+    - Export `SEARCH_API_HOST=http://127.0.0.1:8000` and `DATABASE_API_HOST=http://127.0.0.1:9000` as environment variables. These can be set for example to the `~./bashrc` file, or just export them in the terminal session you're using.
+- Run the Start Script, to Clone and Build Services (Database API, Search API and Database): `./sct/start.sh`
+- If the Database API Logs Errors, and Shuts Down (Check Logs: `docker-compose logs -f`), just restart the service with `docker-compose -f docker-compose.yml up -d` in the project root. This happens, because `depends_on` is unreliable in this kind of situation. Even if the PostgreSQL database container has started, database within the container might not be ready. DB API starts quickly, and might try to connect to the database container, even if the database within the database has not started yet.
+- Interface Entrypoint is now at `./interface`
+- Print the Help Command: `./interface --help`
 
-#### Step 2: Clone Component Repositories
+### Examples
 
-- Run the provided script to clone the individual component repositories:
+## Collection
 
-```bash
-    ./sct/clone_repos.sh
-```
+- NOTE: Collection will take multiple days, due to the GitHub API Rate Limits: For example, dataset collection of 16400 records took 8 days.
+- Execute Collect Procedure: `./interface --collect 2008-01-01 2024-04-29 Go 100 150000 desc`
+  - First Go Project (with enough stars) is released at ~ Spring 2008. Most Stars within a single project is ~ 125000, so this query pretty much covers the whole Go Ecosystem available GitHub.
 
-- This script clones the following repositories into the current directory:
+## Normalization 
+ 
+- Execute the Normalize Procedure: `./interface --normalize`
 
-```bash
-    glass-ui
-    glass-api
-    glass-draw
-```
+## Cleaning
 
-#### Step 3: Build Docker Images
+- See the `./interface --help` Command and Execute Drop Command as Needed.
 
-- Build docker images for each component. This step uses the Dockerfiles located in each component's repository to create the images:
+## Distribution
 
-```bash
-    make build
-```
+- Distributions: `./interface --dist --variables created_at stargazer_count open_issues closed_issues open_pull_request_count closed_pull_request_count forks commit_count total_releases_count contributor_count third_party_loc self_written_loc self_written_loc_proportion third_party_loc_proportion --output ./dist.png`
 
-#### Step 4: Run the Application
+## Clustering
 
-Start the application by launching all services defined in the Docker Compose configuration:
+- Clustering: `./interface --cluster --method hierarchical --variables created_at stargazer_count open_issues closed_issues open_pull_request_count closed_pull_request_count forks commit_count total_releases_count contributor_count third_party_loc self_written_loc self_written_loc_proportion third_party_loc_proportion --output ./cluster.png`
 
-```bash
-    make up
-```
+## Heatmap 
 
-This command runs the services in detached mode. To view logs from all services, you can use:
+- Heatmap: `./interface --heatmap --variables  created_at stargazer_count open_issues closed_issues open_pull_request_count closed_pull_request_count forks commit_count total_releases_count contributor_count third_party_loc self_written_loc self_written_loc_proportion third_party_loc_proportion --correlation spearman --output ./heatmap.png`
 
-```bash
-    docker-compose logs -f
-```
+## Plot
 
-#### Step 5: Accessing the Application
+- See the `./interface --help` Command and Execute Plot Command as Needed.
 
-After starting the services, you can access the application components as follows:
+## Regression 
 
-- Glass UI: Open your web browser and navigate to http://localhost:3000
-- Glass API: The API is available at http://localhost:4000
-- Glass Draw: Access the drawing component at http://localhost:5000
-
-Shutting Down
-
-To stop and remove all running containers associated with the application, use the following command:
-
-```bash
-    make down
-```
+- See the `./interface --help` Command and Execute Regression Commands as Needed.
 
 ---
