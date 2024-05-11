@@ -64,15 +64,18 @@ This repository contains necessary tooling how to replicate my thesis setup. The
 
 - Clone this Repository.
 - Install Prerequisites to the Environment.
-- Export your `GITHUB_TOKEN` as an environment variable. (This makes generating the dataset faster, due to the GitHub API Rate Limit. Export `SEARCH_API_HOST=http://127.0.0.1:8000` and `DATABASE_API_HOST=http://127.0.0.1:9000` as environment variables. These can be set for example to the `~./bashrc` file, or just export them in the terminal session you're using.
+- Export your `GITHUB_TOKEN` as an environment variable. (This makes generating the dataset faster, due to the GitHub API Rate Limit. 
+    - Export `SEARCH_API_HOST=http://127.0.0.1:8000` and `DATABASE_API_HOST=http://127.0.0.1:9000` as environment variables. These can be set for example to the `~./bashrc` file, or just export them in the terminal session you're using.
 - Run the Start Script, to Clone and Build Services (Database API, Search API and Database): `./sct/start.sh`
-- If the Database API Logs Errors, and Shuts Down (Check Logs: `docker-compose logs -f`), just restart the service with `docker-compose -f docker-compose.yml up -d` in the project root. This happens, because `depends_on` is unreliable in this kind of situation. Even if the PostgreSQL database container has started, database within the container might've not started. DB API starts quickly, and might try to connect to the database container, even if the database within the database has not started yet.
+- If the Database API Logs Errors, and Shuts Down (Check Logs: `docker-compose logs -f`), just restart the service with `docker-compose -f docker-compose.yml up -d` in the project root. This happens, because `depends_on` is unreliable in this kind of situation. Even if the PostgreSQL database container has started, database within the container might not be ready. DB API starts quickly, and might try to connect to the database container, even if the database within the database has not started yet.
 - Interface Entrypoint is now at `./interface`
-- Print the Help Command: `./services/analysis-interface/dist/main --help`
+- Print the Help Command: `./interface --help`
+
+### Examples
 
 ## Collection
 
-- NOTE: Collection will take multiple days: For example, dataset collection of 16400 records took 8 days.
+- NOTE: Collection will take multiple days, due to the GitHub API Rate Limits: For example, dataset collection of 16400 records took 8 days.
 - Execute Collect Procedure: `./interface --collect 2008-01-01 2024-04-29 Go 100 150000 desc`
   - First Go Project (with enough stars) is released at ~ Spring 2008. Most Stars within a single project is ~ 125000, so this query pretty much covers the whole Go Ecosystem available GitHub.
 
@@ -82,37 +85,26 @@ This repository contains necessary tooling how to replicate my thesis setup. The
 
 ## Cleaning
 
-- Remove Column: `./interface --drop --table repos/normalized --column network_count`
-- Remove Column: `./interface --drop --table repos/normalized --column subscriber_count`
-- Remove Column: `./interface --drop --table repos/normalized --column name`
-- Remove Column: `./interface --drop --table repos/normalized --column language`
-- Remove Column: `./interface --drop --table repos/normalized --column latest_release`
+- See the `./interface --help` Command and Execute Drop Command as Needed.
 
 ## Distribution
 
-- Distributions: `./interface --dist --variables created_at stargazer_count open_issues closed_issues open_pull_request_count closed_pull_request_count forks watcher_count commit_count total_releases_count contributor_count third_party_loc self_written_loc self_written_loc_proportion third_party_loc_proportion --output ./dist.png`
+- Distributions: `./interface --dist --variables created_at stargazer_count open_issues closed_issues open_pull_request_count closed_pull_request_count forks commit_count total_releases_count contributor_count third_party_loc self_written_loc self_written_loc_proportion third_party_loc_proportion --output ./dist.png`
 
 ## Clustering
 
-- Clustering: `./interface --cluster --method hierarchical --variables created_at stargazer_count open_issues closed_issues open_pull_request_count closed_pull_request_count forks watcher_count commit_count total_releases_count contributor_count third_party_loc self_written_loc self_written_loc_proportion third_party_loc_proportion --output ./path.png`
+- Clustering: `./interface --cluster --method hierarchical --variables created_at stargazer_count open_issues closed_issues open_pull_request_count closed_pull_request_count forks commit_count total_releases_count contributor_count third_party_loc self_written_loc self_written_loc_proportion third_party_loc_proportion --output ./cluster.png`
 
 ## Heatmap 
 
-- Heatmap: `./interface --heatmap --variables  created_at stargazer_count open_issues closed_issues open_pull_request_count closed_pull_request_count forks watcher_count commit_count total_releases_count contributor_count third_party_loc self_written_loc self_written_loc_proportion third_party_loc_proportion --correlation spearman --output ./heatmap.png`
+- Heatmap: `./interface --heatmap --variables  created_at stargazer_count open_issues closed_issues open_pull_request_count closed_pull_request_count forks commit_count total_releases_count contributor_count third_party_loc self_written_loc self_written_loc_proportion third_party_loc_proportion --correlation spearman --output ./heatmap.png`
 
-# TODO
+## Plot
 
-## Regression
+- See the `./interface --help` Command and Execute Plot Command as Needed.
 
-- TBD
+## Regression 
 
-<!--
-## Weighted Sums 
-
-- Composite Variable for Popularity: `./interface --weighted --variables stargazer_count forks subscriber_count watcher_count --name popularity`
-- Composite Variable for Activity: `./interface --weighted --variables open_issues closed_issues commit_count open_pull_request_count closed_pull_request_count network_count contributor_count --name activity`
-- Composite Variable for Maturity: `./interface --weighted --variables created_at latest_release total_releases_count --name maturity`
--->
-
+- See the `./interface --help` Command and Execute Regression Commands as Needed.
 
 ---
