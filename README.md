@@ -23,7 +23,7 @@ This repository contains necessary tooling how to replicate my thesis setup. The
 
 - [Interface](https://github.com/haapjari/repository-analysis-interface/releases/tag/v1.0.0)
 - Will be compiled into a single binary, with `pyinstaller`.
-- Version Used: `v1.0.7`.
+- Version Used: `v1.0.9`.
 
 ### Repository Search API
 
@@ -58,7 +58,7 @@ This repository contains necessary tooling how to replicate my thesis setup. The
     make
 ```
 
-- Interface is compiled in `Ubuntu LTS 22.04` environment with `pyinstaller`. If you're getting errors while using it, that means your `glibc` version is not compatible with the generated binary. Binary has to be recompiled to your corresponding environment.
+- If you're getting errors while using `Interface` it, that means the environments `glibc` version is not compatible with the compiled binary. Binary has to be recompiled to your corresponding environment.
 
 ### Preparation
 
